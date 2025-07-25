@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Malla Veterinaria</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- vis-network para grafo -->
+  <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
+</head>
+<body>
+  <h1>Malla Curricular Veterinaria</h1>
+  <div id="network"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeBtn" class="close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p><strong>Prerrequisitos:</strong></p>
+      <ul id="modal-list"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
