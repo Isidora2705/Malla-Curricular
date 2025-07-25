@@ -1,68 +1,70 @@
+// Parámetros de espaciado
+const X_GAP = 250;  // distancia horizontal entre semestres
+const Y_GAP = 80;   // distancia vertical entre cursos
+
 fetch('cursos.json')
-  .then(res => res.json())
+  .then(r => r.json())
   .then(cursos => {
-    // Construir nodos con group = semestre
-    const nodesData = cursos.map(c => ({
-      id: c.nombre,
-      label: c.nombre,
-      group: c.semestre,
-      title: `Semestre ${c.semestre}`
-    }));
-    const nodes = new vis.DataSet(nodesData);
+    // Agrupar por semestre manteniendo el orden
+    const grupos = {};
+    cursos.forEach(c => {
+      if (!grupos[c.semestre]) grupos[c.semestre] = [];
+      grupos[c.semestre].push(c);
+    });
 
-    // Construir aristas según prerrequisitos
-    const edges = cursos.flatMap(c =>
-      c.prerrequisitos.map(pr => ({ from: pr, to: c.nombre }))
-    );
+    // Construir nodos con posición fija
+    const nodes = [];
+    Object.entries(grupos).forEach(([sem, lista]) => {
+      const s = Number(sem);
+      lista.forEach((c, i) => {
+        nodes.push({
+          id: c.nombre,
+          label: c.nombre,
+          x: s * X_GAP,
+          y: i * Y_GAP,
+          fixed: { x: true, y: true }
+        });
+      });
+    });
 
-    // Contenedor y opciones de vis-network
+    // Construir aristas
+    const edges = [];
+    cursos.forEach(c => {
+      c.prerrequisitos.forEach(pr => {
+        edges.push({ from: pr, to: c.nombre, arrows: 'to' });
+      });
+    });
+
+    // Crear la red
     const container = document.getElementById('network');
-    const data = { nodes, edges };
+    const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
     const options = {
-      groups: {
-        1: { color: '#FFE4E1' },
-        2: { color: '#FFD1DC' },
-        3: { color: '#FFB7C5' },
-        4: { color: '#FF8DAA' },
-        5: { color: '#FF6F91' },
-        6: { color: '#FF4C93' },
-        7: { color: '#FF2D95' },
-        8: { color: '#E6007E' },
-        9: { color: '#C70071' },
-        10:{ color: '#A50065' }
-      },
       nodes: {
         shape: 'box',
-        margin: 10,
-        font: { color: '#333', face: 'Montserrat' },
+        color: { background: '#FFC0CB', border: '#FF69B4' },
+        font: { color: '#fff', face: 'Montserrat', size: 14 },
+        margin: 10
       },
       edges: {
-        smooth: { type: 'curvedCW', roundness: 0.2 },
-        arrows: 'to'
-      },
-      layout: {
-        hierarchical: {
-          enabled: true,
-          direction: 'LR',
-          levelSeparation: 150,
-          nodeSpacing: 200
-        }
+        smooth: { enabled: true, type: 'cubicBezier', roundness: 0.4 },
+        color: '#FF69B4'
       },
       physics: false,
-      interaction: { hover: true }
+      interaction: { hover: true },
+      layout: { improvedLayout: false }
     };
     const network = new vis.Network(container, data, options);
 
-    // Modal para prerrequisitos
+    // Modal
     const modal = document.getElementById('modal');
-    const title = document.getElementById('modal-title');
-    const list  = document.getElementById('modal-list');
     const closeBtn = document.getElementById('closeBtn');
+    const title   = document.getElementById('modal-title');
+    const list    = document.getElementById('modal-list');
 
     network.on('click', params => {
       if (params.nodes.length) {
         const nombre = params.nodes[0];
-        const curso = cursos.find(c => c.nombre === nombre);
+        const curso  = cursos.find(c => c.nombre === nombre);
         title.textContent = curso.nombre;
         list.innerHTML = curso.prerrequisitos.length
           ? curso.prerrequisitos.map(p => `<li>${p}</li>`).join('')
@@ -72,18 +74,5 @@ fetch('cursos.json')
     });
     closeBtn.onclick = () => modal.style.display = 'none';
     window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
-
-    // Legendario: filtrar semestres
-    document.querySelectorAll('#legend input').forEach(chk => {
-      chk.addEventListener('change', () => {
-        const g = +chk.dataset.group;
-        const show = chk.checked;
-        nodes.forEach(n => {
-          if (n.group === g) {
-            nodes.update({ id: n.id, hidden: !show });
-          }
-        });
-      });
-    });
   })
-  .catch(err => console.error('Error cargando cursos.json:', err));
+  .catch(e => console.error(e));
