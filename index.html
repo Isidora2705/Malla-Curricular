@@ -3,14 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Malla Veterinaria</title>
+  <title>Malla Curricular Veterinaria</title>
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <!-- CSS -->
   <link rel="stylesheet" href="styles.css" />
-  <!-- vis-network para grafo -->
+  <!-- vis-network -->
   <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
 </head>
 <body>
-  <h1>Malla Curricular Veterinaria</h1>
-  <div id="network"></div>
+  <header>
+    <h1>Malla Curricular Veterinaria</h1>
+  </header>
+
+  <main>
+    <div id="network"></div>
+
+    <section id="legend">
+      <h3>Semestres</h3>
+      <div class="legend-items">
+        <label><input type="checkbox" data-group="1" checked> Sem 1</label>
+        <label><input type="checkbox" data-group="2" checked> Sem 2</label>
+        <label><input type="checkbox" data-group="3" checked> Sem 3</label>
+        <label><input type="checkbox" data-group="4" checked> Sem 4</label>
+        <label><input type="checkbox" data-group="5" checked> Sem 5</label>
+        <label><input type="checkbox" data-group="6" checked> Sem 6</label>
+        <label><input type="checkbox" data-group="7" checked> Sem 7</label>
+        <label><input type="checkbox" data-group="8" checked> Sem 8</label>
+        <label><input type="checkbox" data-group="9" checked> Sem 9</label>
+        <label><input type="checkbox" data-group="10" checked> Sem 10</label>
+      </div>
+    </section>
+  </main>
 
   <!-- Modal -->
   <div id="modal" class="modal">
