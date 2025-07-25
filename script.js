@@ -1,89 +1,100 @@
-// Colores por defecto y completado
-const DEFAULT_COLOR = {
-  background: getComputedStyle(document.documentElement).getPropertyValue('--pink-bg').trim(),
-  border: getComputedStyle(document.documentElement).getPropertyValue('--pink-border').trim()
-};
-const COMPLETED_COLOR = {
-  background: getComputedStyle(document.documentElement).getPropertyValue('--purple-bg').trim(),
-  border: getComputedStyle(document.documentElement).getPropertyValue('--purple-border').trim()
-};
+// Colores
+const DEFAULT_COLOR = { background: '#ffc0cb', border: '#ff69b4' };
+const COMPLETED_COLOR = { background: '#800080', border: '#4b0082' };
+
+// Espaciados
+const X_GAP = 240;  // distancia horizontal entre semestres
+const Y_GAP = 80;   // distancia vertical entre cursos
 
 fetch('cursos.json')
   .then(res => res.json())
   .then(cursos => {
     const completed = new Set();
 
-    // Construir nodos y edges
+    // Agrupar cursos por semestre
+    const grupos = {};
+    cursos.forEach(c => {
+      grupos[c.semestre] = grupos[c.semestre] || [];
+      grupos[c.semestre].push(c);
+    });
+
+    // Crear nodos con posición fija (grid)
     const nodesArr = [];
+    Object.keys(grupos)
+      .sort((a, b) => a - b)
+      .forEach(sem => {
+        grupos[sem].forEach((c, i) => {
+          nodesArr.push({
+            id: c.nombre,
+            label: c.nombre,
+            x: (sem - 1) * X_GAP,
+            y: i * Y_GAP,
+            fixed: { x: true, y: true },
+            hidden: c.prerrequisitos.length > 0,
+            color: DEFAULT_COLOR,
+            font: { color: '#fff' }
+          });
+        });
+      });
+
+    // Crear aristas sin flechas, ocultas al inicio
     const edgesArr = [];
     cursos.forEach(c => {
-      // Nodo: oculto si tiene prerrequisitos
-      nodesArr.push({
-        id: c.nombre,
-        label: c.nombre,
-        hidden: c.prerrequisitos.length > 0,
-        color: DEFAULT_COLOR
-      });
-      // Edge: siempre oculto al inicio
       c.prerrequisitos.forEach(pr => {
         edgesArr.push({
           id: `${pr}->${c.nombre}`,
           from: pr,
           to: c.nombre,
           hidden: true,
-          arrows: 'to',
-          color: { color: DEFAULT_COLOR.border }
+          color: { color: '#ccc' },
+          smooth: false
         });
       });
     });
 
-    const nodes = new vis.DataSet(nodesArr);
-    const edges = new vis.DataSet(edgesArr);
-
+    // Instanciar vis-network
     const container = document.getElementById('network');
-    const data = { nodes, edges };
+    const data = {
+      nodes: new vis.DataSet(nodesArr),
+      edges: new vis.DataSet(edgesArr)
+    };
     const options = {
       nodes: {
         shape: 'box',
-        font: { color: '#fff', face: 'Montserrat', size: 14 },
         margin: 10
       },
       edges: {
-        smooth: { enabled: true, type: 'cubicBezier', roundness: 0.4 }
-      },
-      layout: {
-        hierarchical: {
-          enabled: true,
-          direction: 'LR',
-          levelSeparation: 150,
-          nodeSpacing: 200
-        }
+        arrows: { to: false, from: false },
+        smooth: false
       },
       physics: false,
-      interaction: { hover: true }
+      layout: {
+        improvedLayout: false
+      },
+      interaction: {
+        hover: true
+      }
     };
-
     const network = new vis.Network(container, data, options);
 
-    // Al hacer clic, marcar completado y desbloquear dependientes
+    // Click en nodo → marcar completado y desbloquear
     network.on('click', params => {
       if (!params.nodes.length) return;
       const id = params.nodes[0];
-      if (completed.has(id)) return;  // ya marcado
+      if (completed.has(id)) return;
 
-      // 1) Marcar completado
+      // 1) Marcar como completado
       completed.add(id);
-      nodes.update({ id, color: COMPLETED_COLOR });
+      data.nodes.update({ id, color: COMPLETED_COLOR, font: { color: '#fff' } });
 
-      // 2) Desbloquear nodos cuyos prerreqs ahora estén todos completados
+      // 2) Desbloquear los hijos cuyas prereqs ya estén todas completadas
       cursos.forEach(c => {
-        if (nodes.get(c.nombre).hidden) {
-          const todos = c.prerrequisitos.every(pr => completed.has(pr));
-          if (todos) {
-            nodes.update({ id: c.nombre, hidden: false });
-            // mostrar sus conexiones
+        if (data.nodes.get(c.nombre).hidden) {
+          const allDone = c.prerrequisitos.every(pr => completed.has(pr));
+          if (allDone) {
+            data.nodes.update({ id: c.nombre, hidden: false });
             c.prerrequisitos.forEach(pr => {
-              edges.update({ id: `${pr}->${c.nombre}`, hidden: false });
+              data.edges.update({ id: `${pr}->${c.nombre}`, hidden: false });
             });
           }
         }
