@@ -1,104 +1,97 @@
 // Colores
-const DEFAULT_COLOR = { background: '#ffc0cb', border: '#ff69b4' };
-const COMPLETED_COLOR = { background: '#800080', border: '#4b0082' };
+const COLOR_LOCKED    = { background: '#CCCCCC', border: '#AAAAAA' };
+const COLOR_UNLOCKED  = { background: '#FFC0CB', border: '#FF69B4' };
+const COLOR_COMPLETED = { background: '#800080', border: '#4B0082' };
 
-// Espaciados
-const X_GAP = 240;  // distancia horizontal entre semestres
-const Y_GAP = 80;   // distancia vertical entre cursos
+// Espaciados de la grilla
+const X_GAP = 230;
+const Y_GAP = 70;
 
 fetch('cursos.json')
-  .then(res => res.json())
+  .then(r => r.json())
   .then(cursos => {
+    // Mapas rápidos
+    const deps    = {}; // prerrequisitos
+    const depends = {}; // hijos
+    cursos.forEach(c => {
+      deps[c.nombre] = c.prerrequisitos;
+      c.prerrequisitos.forEach(pr => {
+        depends[pr] = depends[pr] || [];
+        depends[pr].push(c.nombre);
+      });
+    });
+
+    // Estado de completados
     const completed = new Set();
 
-    // Agrupar cursos por semestre
-    const grupos = {};
+    // Crear nodos en grid (x,y fijos)
+    const semGroups = {};
     cursos.forEach(c => {
-      grupos[c.semestre] = grupos[c.semestre] || [];
-      grupos[c.semestre].push(c);
+      semGroups[c.semestre] = semGroups[c.semestre] || [];
+      semGroups[c.semestre].push(c);
     });
-
-    // Crear nodos con posición fija (grid)
     const nodesArr = [];
-    Object.keys(grupos)
-      .sort((a, b) => a - b)
-      .forEach(sem => {
-        grupos[sem].forEach((c, i) => {
-          nodesArr.push({
-            id: c.nombre,
-            label: c.nombre,
-            x: (sem - 1) * X_GAP,
-            y: i * Y_GAP,
-            fixed: { x: true, y: true },
-            hidden: c.prerrequisitos.length > 0,
-            color: DEFAULT_COLOR,
-            font: { color: '#fff' }
-          });
-        });
-      });
-
-    // Crear aristas sin flechas, ocultas al inicio
-    const edgesArr = [];
-    cursos.forEach(c => {
-      c.prerrequisitos.forEach(pr => {
-        edgesArr.push({
-          id: `${pr}->${c.nombre}`,
-          from: pr,
-          to: c.nombre,
-          hidden: true,
-          color: { color: '#ccc' },
-          smooth: false
+    Object.keys(semGroups).sort((a,b)=>a-b).forEach(sem => {
+      semGroups[sem].forEach((c, idx) => {
+        // Estado inicial: blocked si tiene deps, else unlocked
+        const locked = deps[c.nombre].length > 0;
+        nodesArr.push({
+          id: c.nombre,
+          label: c.nombre,
+          x: (Number(sem)-1) * X_GAP,
+          y: idx * Y_GAP,
+          fixed: { x:true, y:true },
+          color: locked ? COLOR_LOCKED : COLOR_UNLOCKED,
+          font: { color: '#fff' }
         });
       });
     });
 
-    // Instanciar vis-network
+    // No usamos aristas visibles
+    const edgesArr = [];
+
+    // Instancia vis-network
     const container = document.getElementById('network');
     const data = {
       nodes: new vis.DataSet(nodesArr),
       edges: new vis.DataSet(edgesArr)
     };
     const options = {
-      nodes: {
-        shape: 'box',
-        margin: 10
-      },
-      edges: {
-        arrows: { to: false, from: false },
-        smooth: false
-      },
+      nodes: { shape: 'box', margin: 8 },
+      edges: { smooth: false, arrows: { to:false, from:false } },
       physics: false,
-      layout: {
-        improvedLayout: false
-      },
-      interaction: {
-        hover: true
-      }
+      layout: { improvedLayout: false },
+      interaction: { hover: true, multiselect: false }
     };
     const network = new vis.Network(container, data, options);
 
-    // Click en nodo → marcar completado y desbloquear
+    // Función para recalcular colores según estado
+    function refreshAll() {
+      cursos.forEach(c => {
+        const id = c.nombre;
+        if (completed.has(id)) {
+          data.nodes.update({ id, color: COLOR_COMPLETED });
+        } else {
+          // desbloqueado si todos deps completados
+          const unlocked = deps[id].every(pr => completed.has(pr));
+          data.nodes.update({
+            id,
+            color: unlocked ? COLOR_UNLOCKED : COLOR_LOCKED
+          });
+        }
+      });
+    }
+
+    // Click en nodo: toggle completado + refrescar
     network.on('click', params => {
       if (!params.nodes.length) return;
       const id = params.nodes[0];
-      if (completed.has(id)) return;
-
-      // 1) Marcar como completado
-      completed.add(id);
-      data.nodes.update({ id, color: COMPLETED_COLOR, font: { color: '#fff' } });
-
-      // 2) Desbloquear los hijos cuyas prereqs ya estén todas completadas
-      cursos.forEach(c => {
-        if (data.nodes.get(c.nombre).hidden) {
-          const allDone = c.prerrequisitos.every(pr => completed.has(pr));
-          if (allDone) {
-            data.nodes.update({ id: c.nombre, hidden: false });
-            c.prerrequisitos.forEach(pr => {
-              data.edges.update({ id: `${pr}->${c.nombre}`, hidden: false });
-            });
-          }
-        }
-      });
+      if (completed.has(id)) completed.delete(id);
+      else completed.add(id);
+      refreshAll();
     });
+
+    // primera pasada
+    refreshAll();
   })
-  .catch(err => console.error('Error cargando cursos.json:', err));
+  .catch(console.error);
