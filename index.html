@@ -5,31 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Malla Curricular Veterinaria</title>
 
-  <!-- Tipografía Montserrat -->
+  <!-- Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- CSS propio -->
   <link rel="stylesheet" href="styles.css">
 
   <!-- vis-network -->
   <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
 </head>
 <body>
-  <h1>Malla Curricular Veterinaria</h1>
+  <header>
+    <h1>Malla Curricular Veterinaria</h1>
+  </header>
 
-  <div id="network"></div>
-
-  <!-- Modal pra prerrequisitos -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span id="closeBtn" class="close">&times;</span>
-      <h2 id="modal-title"></h2>
-      <p><strong>Prerrequisitos:</strong></p>
-      <ul id="modal-list"></ul>
-    </div>
-  </div>
+  <main>
+    <div id="network"></div>
+  </main>
 
   <script src="script.js"></script>
 </body>
