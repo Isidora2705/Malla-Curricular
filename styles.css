@@ -1,4 +1,4 @@
-/* --- Reset y tipografía --- */
+/* Reset y fuente */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,18 +16,33 @@ header h1 {
   color: #c71585;
 }
 
-/* --- Contenedor de la red --- */
+/* Semestres arriba */
+#semesters {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto 1rem;
+}
+#semesters div {
+  text-align: center;
+  font-weight: 600;
+  color: #800080;
+}
+
+/* Contenedor del grafo */
 #network {
   width: 100%;
-  height: 85vh;
+  height: 80vh;
+  max-width: 1200px;
   margin: 0 auto;
   border: 2px solid #ffc0cb;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Nodo personalizado --- */
+/* Bordes redondeados para los nodos */
 .vis-network .vis-node {
   border-radius: 4px !important;
 }
