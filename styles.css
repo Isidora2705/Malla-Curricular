@@ -1,71 +1,26 @@
-/* --- Variables de fuente y colores --- */
-:root {
-  --font-sans: 'Lato', sans-serif;
-  --font-heading: 'Montserrat', sans-serif;
-  --bg-page: #FFF5F7;
-  --text-color: #333;
-  --node-shadow: rgba(0, 0, 0, 0.1);
-}
-
-/* --- Reset y layout --- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* --- Reset y fuentes --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: var(--font-sans);
-  background-color: var(--bg-page);
-  color: var(--text-color);
-}
-header {
-  background-color: #FFE4EC;
+  font-family: 'Montserrat', sans-serif;
+  background: #FFF5F7;
+  color: #333;
   padding: 1rem;
-  text-align: center;
-  box-shadow: 0 2px 4px var(--node-shadow);
 }
 h1 {
-  font-family: var(--font-heading);
+  text-align: center;
+  margin-bottom: 1rem;
   color: #C71585;
-  font-size: 2rem;
 }
 
 /* --- Contenedor del grafo --- */
 #network {
   width: 100%;
-  height: 70vh;
-  margin: 1.5rem auto;
-  border-radius: 12px;
+  height: 80vh;
+  border: 2px solid #FFC0CB;
+  border-radius: 8px;
   background: #fff;
-  box-shadow: 0 2px 6px var(--node-shadow);
-}
-
-/* --- Legendario --- */
-#legend {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  font-family: var(--font-sans);
-}
-#legend h3 {
-  font-family: var(--font-heading);
-  margin-bottom: 0.5rem;
-}
-.legend-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-.legend-items label {
-  background: #fff;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px var(--node-shadow);
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.legend-items input {
-  margin-right: 0.3rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
 }
 
 /* --- Modal --- */
@@ -73,22 +28,31 @@ h1 {
   display: none;
   position: fixed;
   z-index: 10;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  inset: 0;
+  background: rgba(0,0,0,0.5);
 }
 .modal-content {
-  background: #FFF;
+  background: #fff;
+  width: 90%;
+  max-width: 360px;
   margin: 10% auto;
   padding: 1.5rem;
   border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-  font-family: var(--font-sans);
-  box-shadow: 0 2px 6px var(--node-shadow);
+  text-align: left;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.modal-content h2 {
+  margin-bottom: 0.5rem;
+  color: #C71585;
 }
 .close {
-  float: right;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
   font-size: 1.5rem;
   cursor: pointer;
+}
+.modal-content ul {
+  list-style: disc inside;
 }
