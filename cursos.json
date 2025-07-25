@@ -1,0 +1,277 @@
+[
+  {
+    "semestre": 1,
+    "nombre": "Taller de comunicación oral y escrita",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 1,
+    "nombre": "Matemática general",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 1,
+    "nombre": "Introducción a la medicina veterinaria",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 1,
+    "nombre": "Biología celular",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 1,
+    "nombre": "Química",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 2,
+    "nombre": "Ingles 1",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 2,
+    "nombre": "Bioestadística",
+    "prerrequisitos": ["Matemática general"]
+  },
+  {
+    "semestre": 2,
+    "nombre": "Anatomía del canino",
+    "prerrequisitos": ["Introducción a la medicina veterinaria"]
+  },
+  {
+    "semestre": 2,
+    "nombre": "Histoembriología",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 2,
+    "nombre": "Bioquímica",
+    "prerrequisitos": ["Química"]
+  },
+  {
+    "semestre": 3,
+    "nombre": "Ingles 2",
+    "prerrequisitos": ["Ingles 1"]
+  },
+  {
+    "semestre": 3,
+    "nombre": "Medio ambiente y gestión ambiental",
+    "prerrequisitos": ["Biología celular"]
+  },
+  {
+    "semestre": 3,
+    "nombre": "Anatomía comparada",
+    "prerrequisitos": ["Anatomía del canino"]
+  },
+  {
+    "semestre": 3,
+    "nombre": "Zoología",
+    "prerrequisitos": ["Histoembriología", "Biología celular"]
+  },
+  {
+    "semestre": 3,
+    "nombre": "Practica básica",
+    "prerrequisitos": ["Anatomía del canino", "Introducción a la medicina veterinaria"]
+  },
+  {
+    "semestre": 4,
+    "nombre": "Administración y emprendimiento veterinario",
+    "prerrequisitos": []
+  },
+  {
+    "semestre": 4,
+    "nombre": "Microbiología",
+    "prerrequisitos": ["Biología celular"]
+  },
+  {
+    "semestre": 4,
+    "nombre": "Fisiología animal",
+    "prerrequisitos": ["Bioquímica", "Anatomía del canino"]
+  },
+  {
+    "semestre": 4,
+    "nombre": "Enfermedades parasitarias",
+    "prerrequisitos": ["Zoología"]
+  },
+  {
+    "semestre": 4,
+    "nombre": "Genética",
+    "prerrequisitos": ["Bioestadística"]
+  },
+  {
+    "semestre": 5,
+    "nombre": "Reproducción e inseminación artificial",
+    "prerrequisitos": ["Fisiología animal"]
+  },
+  {
+    "semestre": 5,
+    "nombre": "Inmunología",
+    "prerrequisitos": ["Microbiología"]
+  },
+  {
+    "semestre": 5,
+    "nombre": "Fisiopatología",
+    "prerrequisitos": ["Fisiología animal", "Histoembriología"]
+  },
+  {
+    "semestre": 5,
+    "nombre": "Etología y bienestar animal",
+    "prerrequisitos": ["Zoología"]
+  },
+  {
+    "semestre": 5,
+    "nombre": "Tecnología de los alimentos",
+    "prerrequisitos": ["Microbiología"]
+  },
+  {
+    "semestre": 5,
+    "nombre": "Nutrición y alimentación animal",
+    "prerrequisitos": ["Bioquímica"]
+  },
+  {
+    "semestre": 6,
+    "nombre": "Obstetricia y ginecología",
+    "prerrequisitos": ["Reproducción e inseminación artificial"]
+  },
+  {
+    "semestre": 6,
+    "nombre": "Control de calidad de los alimentos",
+    "prerrequisitos": ["Enfermedades parasitarias", "Tecnología de los alimentos"]
+  },
+  {
+    "semestre": 6,
+    "nombre": "Producción avícola",
+    "prerrequisitos": ["Nutrición y alimentación animal", "Etología y bienestar animal"]
+  },
+  {
+    "semestre": 6,
+    "nombre": "Farmacología y toxicología",
+    "prerrequisitos": ["Fisiología animal"]
+  },
+  {
+    "semestre": 6,
+    "nombre": "Enfermedades infecciosas",
+    "prerrequisitos": ["Inmunología"]
+  },
+  {
+    "semestre": 6,
+    "nombre": "Patología de sistemas",
+    "prerrequisitos": ["Fisiopatología"]
+  },
+  {
+    "semestre": 7,
+    "nombre": "Laboratorio clínico",
+    "prerrequisitos": ["Patología de sistemas"]
+  },
+  {
+    "semestre": 7,
+    "nombre": "Producción de ovinos y caprinos",
+    "prerrequisitos": ["Producción avícola"]
+  },
+  {
+    "semestre": 7,
+    "nombre": "Producción porcina",
+    "prerrequisitos": ["Reproducción e inseminación artificial", "Medio ambiente y gestión ambiental"]
+  },
+  {
+    "semestre": 7,
+    "nombre": "Epidemiologia veterinaria",
+    "prerrequisitos": ["Enfermedades infecciosas"]
+  },
+  {
+    "semestre": 7,
+    "nombre": "Semiología",
+    "prerrequisitos": ["Farmacología y toxicología", "Fisiopatología", "Anatomía comparada"]
+  },
+  {
+    "semestre": 7,
+    "nombre": "Practica intermedia",
+    "prerrequisitos": ["Farmacología y toxicología", "Enfermedades infecciosas"]
+  },
+  {
+    "semestre": 8,
+    "nombre": "Cirugía general",
+    "prerrequisitos": ["Semiología"]
+  },
+  {
+    "semestre": 8,
+    "nombre": "Medicina de animales mayores",
+    "prerrequisitos": ["Laboratorio clínico", "Semiología"]
+  },
+  {
+    "semestre": 8,
+    "nombre": "Medicina de caninos",
+    "prerrequisitos": ["Laboratorio clínico", "Semiología"]
+  },
+  {
+    "semestre": 8,
+    "nombre": "Medicina de felinos",
+    "prerrequisitos": ["Laboratorio clínico", "Semiología"]
+  },
+  {
+    "semestre": 8,
+    "nombre": "Medicina de animales exóticos",
+    "prerrequisitos": ["Laboratorio clínico", "Semiología"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Formulación y evaluación de proyectos agropecuarios",
+    "prerrequisitos": ["Administración y emprendimiento veterinario"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Producción acuícola",
+    "prerrequisitos": ["Nutrición y alimentación animal"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Producción de bovino de carne y leche",
+    "prerrequisitos": ["Medicina de animales mayores"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Patología quirúrgica",
+    "prerrequisitos": ["Cirugía general"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Diagnostico por imágenes",
+    "prerrequisitos": ["Patología de sistemas"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Metodología de la investigación",
+    "prerrequisitos": ["Epidemiologia veterinaria"]
+  },
+  {
+    "semestre": 9,
+    "nombre": "Practica final",
+    "prerrequisitos": ["Practica intermedia"]
+  },
+  {
+    "semestre": 10,
+    "nombre": "Farmacología aplicada",
+    "prerrequisitos": ["Medicina de caninos", "Medicina de animales mayores"]
+  },
+  {
+    "semestre": 10,
+    "nombre": "Salud publica",
+    "prerrequisitos": ["Control de calidad de los alimentos", "Epidemiologia veterinaria"]
+  },
+  {
+    "semestre": 10,
+    "nombre": "Trabajo de titulación",
+    "prerrequisitos": ["Metodología de la investigación"]
+  },
+  {
+    "semestre": 10,
+    "nombre": "Clínica de animales menores",
+    "prerrequisitos": ["Medicina de caninos"]
+  },
+  {
+    "semestre": 10,
+    "nombre": "Clínica de animales mayores",
+    "prerrequisitos": ["Medicina de animales mayores"]
+  }
+]
